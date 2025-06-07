@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080" # Spring Boot app port
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/nimbus
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: secure@123
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: nimbus
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secure@123
+    ports:
+      - "5432:5432"
+    volumes:
+      - nimbus-db-data:/var/lib/postgresql/data
+
+volumes:
+  nimbus-db-data:
